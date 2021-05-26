@@ -1,4 +1,3 @@
-const axios = require('axios');
 const amqp = require('amqplib/callback_api');
 
 //should be read from an env variable
@@ -19,37 +18,30 @@ amqp.connect(amqp_url, function (error0, connection) {
             durable: true
         });
 
-//TODO: Currently blocked from baconipsum, need to find an alternative
-        // let messages = await getQuotes();
-        // messages = formatMessages(messages);
-        // console.log(messages);
+        let messages = await getQuotes();
+        messages = formatMessages(messages);
+        console.log(messages);
 
-        // setInterval(async () => {
-        //     let newMessages = await getQuotes();
-        //     newMessages = formatMessages(newMessages);
-        //     console.log(newMessages);
-        //     newMessages.forEach(message => {
-        //         messages.unshift(message);
-        //     });
-        //     console.log(`messages refilled: ${messages.length}`)
-        //
-        // }, 3500);
+        setInterval(async () => {
+            let newMessages = await getQuotes();
+            newMessages = formatMessages(newMessages);
+            console.log(newMessages);
+            newMessages.forEach(message => {
+                messages.unshift(message);
+            });
+            console.log(`messages refilled: ${messages.length}`)
+
+        }, 3500);
 
         //publish 20 messages per second
         setInterval(() => {
-            channel.publish(exchange, "high", Buffer.from(JSON.stringify(getRandomInt(0, 10))));
-            console.log("sent")
-            // try {
-            //     for (let i = 0; i < 20; i++) {
-            //         let data = messages.pop();
-            //         channel.publish(exchange, data.severity, Buffer.from(JSON.stringify(data)));
-            //         console.log("pushed file");
-            //     }
-            // } catch (err) {
-            //     console.log(err)
-            // }
+            for (let i = 0; i <= 20; i++) {
+                let message = messages.pop();
+                channel.publish(exchange, message.severity, Buffer.from(JSON.stringify(message)));
+                console.log("sent")
+            }
 
-        }, 3000);
+        }, 1000);
     });
 });
 
