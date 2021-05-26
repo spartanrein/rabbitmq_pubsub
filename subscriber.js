@@ -1,30 +1,32 @@
-var amqp = require('amqplib/callback_api');
-amqp_url = "amqps://tqigunti:Z3lVxmRsW2tedQqhCghElYciBMZTEbQL@mustang.rmq.cloudamqp.com/tqigunti";
+const amqp = require('amqplib/callback_api');
 
-var args = process.argv.slice(2);
+//Should be using environment
+const amqp_url = "amqps://tqigunti:Z3lVxmRsW2tedQqhCghElYciBMZTEbQL@mustang.rmq.cloudamqp.com/tqigunti";
 
-var severity = ['high', 'low'];
+const severity = ['high', 'low'];
 
-amqp.connect(amqp_url, function (error0, connection) {
-    if (error0) {
-        throw error0;
-    }
-    connection.createChannel(function (error1, channel) {
-        if (error1) {
-            throw error1;
+function subscriber(socketIo) {
+    amqp.connect(amqp_url, function (error0, connection) {
+        if (error0) {
+            throw error0;
         }
-        var exchange = 'message_exchange';
+        connection.createChannel(function (error1, channel) {
+            if (error1) {
+                throw error1;
+            }
+            const exchange = 'message_exchange';
 
-        channel.assertExchange(exchange, 'direct', {
-            durable: true
+            channel.assertExchange(exchange, 'direct', {
+                durable: true
+            });
+
+            severity.forEach(level => {
+                createQueue(channel, `${level}_queue`, level, exchange)
+            })
+
         });
-
-        severity.forEach(level => {
-            createQueue(channel, `${level}_queue`, level, exchange)
-        })
-
     });
-});
+}
 
 function createQueue(channel, queue_name, severity, exchange) {
     channel.assertQueue(queue_name, {
@@ -43,3 +45,5 @@ function createQueue(channel, queue_name, severity, exchange) {
         })
     })
 }
+
+module.exports = subscriber();
