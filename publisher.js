@@ -3,7 +3,7 @@ const amqp = require('amqplib/callback_api');
 
 var amqp_url = "amqps://tqigunti:Z3lVxmRsW2tedQqhCghElYciBMZTEbQL@mustang.rmq.cloudamqp.com/tqigunti";
 
-function publish(quotes) {
+function publish(message) {
     amqp.connect(amqp_url, function (error0, connection) {
         if (error0) {
             throw error0
@@ -18,15 +18,9 @@ function publish(quotes) {
             channel.assertExchange(exchange, 'direct', {
                 durable: true
             });
-            for (let i = 0; i < quotes.length - 1; i++) {
-                let message = {
-                    message: quotes[i],
-                    timestamp: Date.now(),
-                    priority: getRandomInt(1, 10)
-                };
-                let severity = (message.priority >= 7 ? 'high' : 'low');
-                channel.publish(exchange, severity, Buffer.from(JSON.stringify(message)));
-            }
+
+            channel.publish(exchange, message.severity, Buffer.from(JSON.stringify(message)));
+            console.log(`${JSON.stringify(message)} is published`);
         });
         setTimeout(function () {
             connection.close();
@@ -50,6 +44,13 @@ async function getQuotes() {
 //
 getQuotes().then(data => {
     const quotes = data.toString().split(".");
-    publish(quotes);
-    console.log(`${quotes} quote is published`);
+    for (let i = 0; i < quotes.length - 1; i++) {
+        let message = {
+            message: quotes[i],
+            timestamp: Date.now(),
+            severity: (getRandomInt(1, 10) >= 7 ? 'high' : 'low')
+        };
+        publish(message)
+    }
+
 });
