@@ -12,5 +12,8 @@
   "dependencies": {
     "amqplib": "^0.8.0",
     "axios": "^0.21.1"
+  },
+  "devDependencies": {
+    "jest": "^27.0.1"
   }
 }

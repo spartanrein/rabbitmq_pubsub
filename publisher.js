@@ -1,7 +1,7 @@
 const axios = require('axios');
 const amqp = require('amqplib/callback_api');
 
-amqp_url = "amqps://tqigunti:Z3lVxmRsW2tedQqhCghElYciBMZTEbQL@mustang.rmq.cloudamqp.com/tqigunti";
+var amqp_url = "amqps://tqigunti:Z3lVxmRsW2tedQqhCghElYciBMZTEbQL@mustang.rmq.cloudamqp.com/tqigunti";
 
 function publish(quotes) {
     amqp.connect(amqp_url, function (error0, connection) {
@@ -24,7 +24,7 @@ function publish(quotes) {
                     timestamp: Date.now(),
                     priority: getRandomInt(1, 10)
                 };
-                let severity = (message.priority >= 7? 'high' : 'low');
+                let severity = (message.priority >= 7 ? 'high' : 'low');
                 channel.publish(exchange, severity, Buffer.from(JSON.stringify(message)));
             }
         });

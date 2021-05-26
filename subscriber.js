@@ -3,7 +3,7 @@ amqp_url = "amqps://tqigunti:Z3lVxmRsW2tedQqhCghElYciBMZTEbQL@mustang.rmq.clouda
 
 var args = process.argv.slice(2);
 
-var severity_level = ['high', 'low'];
+var severity = ['high', 'low'];
 
 amqp.connect(amqp_url, function (error0, connection) {
     if (error0) {
@@ -19,36 +19,27 @@ amqp.connect(amqp_url, function (error0, connection) {
             durable: true
         });
 
-        channel.assertQueue('low_queue', {
-            exclusive: true
-        }, function (error2, q) {
-            if (error2) {
-                throw error2;
-            }
-            console.log(' [*] Waiting for logs. To exit press CTRL+C', q.queue);
+        severity.forEach(level => {
+            createQueue(channel, `${level}_queue`, level, exchange)
+        })
 
-            channel.bindQueue(q.queue, exchange, 'low');
-            channel.consume(q.queue, function (msg) {
-                console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());
-            }, {
-                noAck: true
-            });
-        });
-
-        channel.assertQueue('high_queue', {
-            exclusive: true
-        }, function (error2, q) {
-            if (error2) {
-                throw error2;
-            }
-            console.log(' [*] Waiting for logs. To exit press CTRL+C', q.queue);
-
-            channel.bindQueue(q.queue, exchange, 'high');
-            channel.consume(q.queue, function (msg) {
-                console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());
-            }, {
-                noAck: true
-            });
-        });
     });
 });
+
+function createQueue(channel, queue_name, severity, exchange) {
+    channel.assertQueue(queue_name, {
+        exclusive: true
+    }, function (err, q) {
+        if (err) {
+            throw err;
+        }
+        console.log(" [x] Waiting for logs. To exit press CTRL+C", q.queue);
+
+        channel.bindQueue(q.queue, exchange, severity);
+        channel.consume(q.queue, function (msg) {
+            console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());
+        }, {
+            noAck: true
+        })
+    })
+}

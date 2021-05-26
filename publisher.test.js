@@ -1,0 +1,2 @@
+const publish = require('./publisher');
+
