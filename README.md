@@ -4,7 +4,7 @@
 
 ## Setup 
 1. Install nodejs https://nodejs.org/en/download/
-2. Run [npm install] in the command line from the /backend and /pubsub_frontend folders
+2. Run `npm install` in the command line from the /backend and /pubsub_frontend folders
 
 *Provide links and descriptions for the third-party libraries you're having your users install.
 
@@ -22,9 +22,9 @@ The architecture consists of 4 main components:
 5. React Frontend - Uses socketio client connection to the backend server to propagate data to a component.
 
 ## Usage
-1. Start the frontend with "npm start" in the /pubsub_frontend folder
-2. Start the Backend server and subscriber with "node app.js" in the /backend folder
-3. Finally, start the publisher by running "node publisher.js" in the /backend folder
+1. Start the frontend with `npm start` in the /pubsub_frontend folder
+2. Start the Backend server and subscriber with `node app.js` in the /backend folder
+3. Finally, start the publisher by running "node `publisher.js` in the /backend folder
 
 ## Errors and bugs
 Note: I have also made a publisher that calls an online api for 100 messages, then sends 20 messages/sec.  The api is called to replenish the messages every 3 seconds.
@@ -34,7 +34,7 @@ The publisher is called OnlinePublisher.js
 ##TODO
 1. Need to create an environment file for security.  Right now, the login and password are exposed for the cloud server
 2. The messages from the low priority queue should be saved in a logfile instead of just printing in console.
-3. TESTS. It's no excuse as I know the concept of TDD.  I will redo this project but as TDD.
+3. TESTS.
 4. Improve the frontend to relay the data better.
 5. Write a script to run all the components.
 6. Needs refactoring
