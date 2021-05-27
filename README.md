@@ -29,7 +29,7 @@ The architecture consists of 4 main components:
 ## Errors and bugs
 Note: I have also made a publisher that calls an online api for 100 messages, then sends 20 messages/sec.  The api is called to replenish the messages every 3 seconds.
 However, I've been blocked after a day of consistently calling their API, so I decided to get my messages from a CSV file.
-The publisher is called OnlinePublisher.js
+The publisher is called onlinePublisher.js
 
 ##TODO
 1. Need to create an environment file for security.  Right now, the login and password are exposed for the cloud server

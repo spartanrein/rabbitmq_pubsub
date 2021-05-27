@@ -1,5 +1,5 @@
 const amqp = require('amqplib/callback_api');
-const csv_parser = require('./CsvParser');
+const csv_parser = require('./csvParser');
 //should be read from an env variable
 const amqp_url = "amqps://tqigunti:Z3lVxmRsW2tedQqhCghElYciBMZTEbQL@mustang.rmq.cloudamqp.com/tqigunti";
 
@@ -23,13 +23,16 @@ amqp.connect(amqp_url, function (error0, connection) {
 
         //publish 20 messages per second
         setInterval(() => {
-            for (let i = 0; i <= 20; i++) {
+            if (messages.length === 0) {
+                connection.close();
+                process.exit(0)
+            } else {
                 let message = messages.pop();
                 message.timestamp = Date.now();
                 const severity = (message.priority) >= 7 ? "high" : "low";
                 channel.publish(exchange, severity, Buffer.from(JSON.stringify(message)));
                 console.log(message);
             }
-        }, 1000);
+        }, 50);
     });
 });
