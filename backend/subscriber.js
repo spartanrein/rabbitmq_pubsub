@@ -38,14 +38,13 @@ module.exports = function subscriber(io) {
             channel.consume(q.queue, function (msg) {
                 if (q.queue === 'high_queue') {
                     io.emit("FromAPI", msg.content.toString())
-                } else {
-                    //TODO: Save low severity messages to logfile
-                    console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());
                 }
+                console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());
+                //TODO: Save low severity messages to logfile
+
             }, {
                 noAck: true
             })
         })
     }
 };
-

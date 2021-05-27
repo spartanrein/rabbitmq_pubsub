@@ -5,7 +5,7 @@ const fs = require('fs');
 module.exports = async function csv_parser(csv_path) {
     let quotes = [];
     await fs.createReadStream(csv_path)
-        .pipe(csv())
+        .pipe(csv({separator: '~'}))
         .on('data', (row) => {
             quotes.push(row);
         })
