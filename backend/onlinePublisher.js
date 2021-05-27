@@ -1,5 +1,7 @@
 const amqp = require('amqplib/callback_api');
 
+
+//NOT TESTED TO WORK.  Please use publisher.js
 //should be read from an env variable
 const amqp_url = "amqps://tqigunti:Z3lVxmRsW2tedQqhCghElYciBMZTEbQL@mustang.rmq.cloudamqp.com/tqigunti";
 
@@ -23,25 +25,26 @@ amqp.connect(amqp_url, function (error0, connection) {
         console.log(messages);
 
         setInterval(async () => {
-            let newMessages = await getQuotes();
-            newMessages = formatMessages(newMessages);
-            console.log(newMessages);
-            newMessages.forEach(message => {
-                messages.unshift(message);
-            });
-            console.log(`messages refilled: ${messages.length}`)
+            if (messages.length < 150) {
+                let newMessages = await getQuotes();
+                newMessages = formatMessages(newMessages);
+                console.log(newMessages);
+                newMessages.forEach(message => {
+                    messages.unshift(message);
+                });
+                console.log(`messages refilled: ${messages.length}`)
+            } else {
+                console.log(`${messages} Messages in memory`)
+            }
 
         }, 3500);
 
         //publish 20 messages per second
         setInterval(() => {
-            for (let i = 0; i <= 20; i++) {
-                let message = messages.pop();
-                channel.publish(exchange, message.severity, Buffer.from(JSON.stringify(message)));
-                console.log("sent")
-            }
-
-        }, 1000);
+            let message = messages.pop();
+            channel.publish(exchange, message.severity, Buffer.from(JSON.stringify(message)));
+            console.log("sent")
+        }, 50);
     });
 });
 
