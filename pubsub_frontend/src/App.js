@@ -37,11 +37,19 @@ function App() {
         </>
     );
 
+    const noDataComponent = () => (
+        <>
+            <Box>
+                <Typography align={"center"} variant={"h3"}>Rabbitmq pubsub waiting for data...</Typography>
+            </Box>
+        </>
+    );
+
     return (
 
         <Container maxWidth={"md"}>
             <Box display={"flex"} flexDirection={"column"} className="validation-msg">
-                {dataComponent(response)}
+                {(response).length !== 0 ? dataComponent(response) : noDataComponent}
             </Box>
         </Container>
     );
