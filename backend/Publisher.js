@@ -1,5 +1,5 @@
 const amqp = require('amqplib/callback_api');
-const csv_parser = require('./csv_parser');
+const csv_parser = require('./CsvParser');
 //should be read from an env variable
 const amqp_url = "amqps://tqigunti:Z3lVxmRsW2tedQqhCghElYciBMZTEbQL@mustang.rmq.cloudamqp.com/tqigunti";
 

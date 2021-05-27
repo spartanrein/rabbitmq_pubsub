@@ -1,2 +1,2 @@
-const publish = require('./publisher');
+const publish = require('./OnlinePublisher');
 
