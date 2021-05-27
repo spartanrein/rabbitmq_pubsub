@@ -44,4 +44,5 @@ I really enjoyed this test.  To be honest, I don't do very well with time pressu
 Looking back, I wish I asked more questions about the implementation and architecture.  
 If I had to do it again, I would spend more time asking about the requirements.
 
-This was my first time implementing a messaging queue and I learnt a lot and had fun doing it.  Kudos for an interesting test.
+This was my first time implementing a messaging queue and I learnt a lot and had fun doing it.  
+Kudos for an interesting test.
