@@ -36,6 +36,8 @@ The publisher is called OnlinePublisher.js
 2. The messages from the low priority queue should be saved in a logfile instead of just printing in console.
 3. TESTS. It's no excuse as I know the concept of TDD.  I will redo this project but as TDD.
 4. Improve the frontend to relay the data better.
+5. Write a script to run all the components.
+6. Needs refactoring
 
 ##Feedback:
 
