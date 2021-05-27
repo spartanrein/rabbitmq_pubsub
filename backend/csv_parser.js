@@ -13,5 +13,4 @@ module.exports = async function csv_parser(csv_path) {
             console.log('CSV file successfully processed');
         });
     return quotes;
-
 };

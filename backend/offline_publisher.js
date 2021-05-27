@@ -26,7 +26,7 @@ amqp.connect(amqp_url, function (error0, connection) {
             for (let i = 0; i <= 20; i++) {
                 let message = messages.pop();
                 message.timestamp = Date.now();
-                var severity = (message.priority) >= 7 ? "high" : "low";
+                const severity = (message.priority) >= 7 ? "high" : "low";
                 channel.publish(exchange, severity, Buffer.from(JSON.stringify(message)));
                 console.log(message);
             }

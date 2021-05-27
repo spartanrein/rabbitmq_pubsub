@@ -20,12 +20,12 @@ module.exports = function subscriber(io) {
             });
 
             severity.forEach(level => {
-                createQueue(channel, `${level}_queue`, level, exchange, io)
+                consumeFromQueue(channel, `${level}_queue`, level, exchange, io)
             })
         });
     });
 
-    function createQueue(channel, queue_name, severity, exchange, io) {
+    function consumeFromQueue(channel, queue_name, priority, exchange, io) {
         channel.assertQueue(queue_name, {
             exclusive: true
         }, function (err, q) {
@@ -34,14 +34,13 @@ module.exports = function subscriber(io) {
             }
             console.log(" [x] Waiting for logs. To exit press CTRL+C", q.queue);
 
-            channel.bindQueue(q.queue, exchange, severity);
+            channel.bindQueue(q.queue, exchange, priority);
             channel.consume(q.queue, function (msg) {
                 if (q.queue === 'high_queue') {
                     io.emit("FromAPI", msg.content.toString())
                 }
                 console.log(" [x] %s: '%s'", msg.fields.routingKey, msg.content.toString());
                 //TODO: Save low severity messages to logfile
-
             }, {
                 noAck: true
             })

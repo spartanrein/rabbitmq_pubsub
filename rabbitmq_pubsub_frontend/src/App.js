@@ -44,7 +44,6 @@ function App() {
                 {dataComponent(response)}
             </Box>
         </Container>
-
     );
 }
 
