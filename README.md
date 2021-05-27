@@ -31,17 +31,16 @@ Note: I have also made a publisher that calls an online api for 100 messages, th
 However, I've been blocked after a day of consistently calling their API, so I decided to get my messages from a CSV file.
 The publisher is called OnlinePublisher.js
 
-##TODO
+## TODO
 1. Need to create an environment file for security.  Right now, the login and password are exposed for the cloud server
 2. The messages from the low priority queue should be saved in a logfile instead of just printing in console.
-3. TESTS.
-4. Improve the frontend to relay the data better.
+3. Unit tests
+4. Virtualize the react list to avoid performance problems
 5. Write a script to run all the components.
-6. Needs refactoring
 
-##Feedback:
+## Feedback:
 
-I really enjoyed this test.  To be honest, I don't do very well with time pressure during coding tests.
+I really enjoyed this test.  To be honest, I don't do very well with time pressure during coding tests.  This was refreshing as I set my own estimation, and got the chance to work at my own pace.
 Looking back, I wish I asked more questions about the implementation and architecture.  
 If I had to do it again, I would spend more time asking about the requirements.
 
